@@ -44,6 +44,24 @@ def check_pos(puzzle, x, y, n):
     return not n in set([row, column, section])
 
 
+def solve(puzzle):
+    print_puzzle(puzzle)
+    for j in range(9):
+        for i in range(9):
+            n = puzzle[j][i]
+            if n == 0:
+                for z in range(1, 10):
+                    if check_pos(puzzle, i, j, z):
+                        puzzle[j][i] = z
+                        solve(puzzle)
+                        # Here is where the backtracking has happened
+                        puzzle[j][i] = 0
+                # Decide to backtrack
+                return None
+    print("Yay we did it!")
+    print_puzzle(puzzle)
+
+
 
 if __name__ == "__main__":
     import os
@@ -54,5 +72,4 @@ if __name__ == "__main__":
 
     puzzle = convert_puzzle(puzzles[10])
 
-    print_puzzle(puzzle)
-    check_pos(puzzle, 2, 6, None)
+    solve(puzzle)
