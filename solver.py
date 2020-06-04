@@ -45,7 +45,7 @@ def check_pos(puzzle, x, y, n):
 
 
 def solve(puzzle):
-    print_puzzle(puzzle)
+    # print_puzzle(puzzle)
     for j in range(9):
         for i in range(9):
             n = puzzle[j][i]
@@ -53,13 +53,14 @@ def solve(puzzle):
                 for z in range(1, 10):
                     if check_pos(puzzle, i, j, z):
                         puzzle[j][i] = z
-                        solve(puzzle)
+                        yield from solve(puzzle)
                         # Here is where the backtracking has happened
                         puzzle[j][i] = 0
                 # Decide to backtrack
                 return None
     print("Yay we did it!")
     print_puzzle(puzzle)
+    yield
 
 
 
@@ -72,4 +73,4 @@ if __name__ == "__main__":
 
     puzzle = convert_puzzle(puzzles[10])
 
-    solve(puzzle)
+    print(next(solve(puzzle)))
