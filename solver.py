@@ -21,10 +21,14 @@ def convert_puzzle(string):
 def check_pos(puzzle, x, y, n):
     row = puzzle[y]
     column = [row[x] for row in puzzle]
+    
     i = (x // 3) * 3
     j = (y // 3) * 3
-    section = [row[i : i+3] for row in puzzle[j : j+3]]
-    print(section)
+    section = [n for row in puzzle[j : j+3] for n in row[i : i+3]]
+    
+    return not n in row and not n in column and not n in section
+    return not n in row + column + section
+    return not n in set([row, column, section])
 
 
 
