@@ -1,7 +1,7 @@
 # heuristics
 # backtracking
 
-from pprint import pprint
+import itertools
 
 def read_puzzle_file():
     with open("puzzles") as file:
@@ -46,21 +46,18 @@ def check_pos(puzzle, x, y, n):
 
 def solve(puzzle):
     # print_puzzle(puzzle)
-    for j in range(9):
-        for i in range(9):
-            n = puzzle[j][i]
-            if n == 0:
-                for z in range(1, 10):
-                    if check_pos(puzzle, i, j, z):
-                        puzzle[j][i] = z
-                        yield from solve(puzzle)
-                        # Here is where the backtracking has happened
-                        puzzle[j][i] = 0
-                # Decide to backtrack
-                return None
-    print("Yay we did it!")
-    print_puzzle(puzzle)
-    yield
+    for i, j in itertools.product(range(9), repeat=2):
+        n = puzzle[j][i]
+        if n == 0:
+            for z in range(1, 10):
+                if check_pos(puzzle, i, j, z):
+                    puzzle[j][i] = z
+                    yield from solve(puzzle)
+                    # Here is where the backtracking has happened
+                    puzzle[j][i] = 0
+            # Decide to backtrack
+            return None
+    yield puzzle
 
 
 
@@ -72,5 +69,16 @@ if __name__ == "__main__":
     puzzles = read_puzzle_file()
 
     puzzle = convert_puzzle(puzzles[10])
+    puzzle[2][2] = 0
+    puzzle[1][4] = 0
+    puzzle[6][7] = 0
+    puzzle[8][3] = 0
+    puzzle[0][5] = 0
+    puzzle[5][7] = 0
+    puzzle[0][8] = 0
+    puzzle[1][2] = 0
+    puzzle[6][2] = 0
 
-    print(next(solve(puzzle)))
+    for solution in solve(puzzle):
+        print("Yay we did it!")
+        print_puzzle(puzzle)
