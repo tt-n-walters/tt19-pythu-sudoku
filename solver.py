@@ -18,15 +18,17 @@ def convert_puzzle(string):
     return puzzle
 
 def print_puzzle(puzzle):
-    output = str()
+    output = "-" * 21 + "\n"
     for row in puzzle:
+        output += "| "
         for n in row:
             if n == 0:
                 output += " "
             else:
                 output += str(n)
             output += " "
-        output += "\n"
+        output += "|\n"
+    output += "-" * 21
     print(output)
 
 def check_pos(puzzle, x, y, n):
