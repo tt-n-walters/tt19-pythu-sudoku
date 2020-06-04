@@ -17,11 +17,22 @@ def convert_puzzle(string):
         puzzle.append(row)
     return puzzle
 
+def print_puzzle(puzzle):
+    output = str()
+    for row in puzzle:
+        for n in row:
+            if n == 0:
+                output += " "
+            else:
+                output += str(n)
+            output += " "
+        output += "\n"
+    print(output)
 
 def check_pos(puzzle, x, y, n):
     row = puzzle[y]
     column = [row[x] for row in puzzle]
-    
+
     i = (x // 3) * 3
     j = (y // 3) * 3
     section = [n for row in puzzle[j : j+3] for n in row[i : i+3]]
@@ -41,5 +52,5 @@ if __name__ == "__main__":
 
     puzzle = convert_puzzle(puzzles[10])
 
-    pprint(puzzle)
+    print_puzzle(puzzle)
     check_pos(puzzle, 2, 6, None)
